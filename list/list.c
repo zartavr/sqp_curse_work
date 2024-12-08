@@ -21,7 +21,7 @@ Node *_list_node_at(const List *list, int index);
 void _list_node_foreach(List *list, foreach_cb callback);
 
 void _node_swap(Node *prev, Node *current);
-void _node_print(const void *const data);
+void _node_print(void *data);
 void _print_memory(FILE *fout_ptr, const void *pointer, size_t size);
 
 void list_print(const List *list)
@@ -363,7 +363,7 @@ void _node_swap(Node *prev, Node *current)
     }
 }
 
-void _node_print(const void *const data)
+void _node_print(void *data)
 {
     const Node *node = data;
     printf("addr: %p\t next: %p\t data: %p\t data_size: %lu\n",

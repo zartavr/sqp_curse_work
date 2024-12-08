@@ -1,15 +1,22 @@
 #include "cmd.h"
 
+#define CMD_INPUT_LEN 3
+
 int main()
 {
     Table table = {};
-    int cmd = 0;
+    char input[CMD_INPUT_LEN];
     while (true)
     {
         print_header();
 
-        scanf("%d", &cmd);
-
+        int cmd = EMPTY;
+        fgets(input, CMD_INPUT_LEN, stdin);
+        if (input[0] != '\n')
+        {
+            sscanf(input,"%d", &cmd);
+        }
+        
         switch (cmd)
         {
         case EXIT:
@@ -22,7 +29,6 @@ int main()
 
         case LOAD_LIST:
             cmd_load_table(&table);
-            print_data(&table.data_list, table.data_type);
             break;
 
         case SAVE_LIST:
@@ -34,7 +40,14 @@ int main()
             break;
 
         case PRINT_LIST:
-            cmd_print(&table);
+            if (table.data_list.len != 0)
+            {
+                cmd_print(&table);
+            }
+            else
+            {
+                printf("List is empty\n");
+            }
             break;
 
         case SORT_LIST:
@@ -47,7 +60,6 @@ int main()
 
         case REMOVE_NODE:
             cmd_remove_node(&table);
-            print_data(&table.data_list, table.data_type);
             break;
 
         default:

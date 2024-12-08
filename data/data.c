@@ -2,12 +2,16 @@
 
 #define MAX_INPUT_LEN 50
 
+int line_counter = 0;
+
 void print_data(List *list, DataType type)
 {
     if (list == NULL)
     {
         return;
     }
+
+    line_counter = 0;
     
     switch (type)
     {

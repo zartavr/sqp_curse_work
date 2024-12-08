@@ -35,10 +35,12 @@ void cmd_load_table(Table *table)
         return;
     }
 
+    char input[FILE_NAME_MAX_LEN];
     char file_name_input[FILE_NAME_MAX_LEN];
 
     printf("input file name: ");
-    scanf("%s", file_name_input);
+    fgets(input, FILE_NAME_MAX_LEN, stdin);
+    sscanf(input,"%s", file_name_input);
     FILE *fin_ptr;
 
     fin_ptr = fopen(file_name_input, "rb");
@@ -62,13 +64,15 @@ void cmd_save_table(Table *table)
         return;
     }
 
+    char input[FILE_NAME_MAX_LEN];
     char file_name_input[FILE_NAME_MAX_LEN];
 
-    printf("input file name (y - use current name \"%s\"): ", table->name);
-    int ret = scanf("%s", file_name_input);
+    printf("input file name (%s): ", table->name);
+    fgets(input, FILE_NAME_MAX_LEN, stdin);
+    sscanf(input,"%s", file_name_input);
     FILE *fout_ptr;
 
-    if (strcmp(file_name_input, "y") == 0 || strcmp(file_name_input, table->name) == 0)
+    if ((input[0] == '\n' && strlen(table->name) != 0) || strcmp(file_name_input, table->name) == 0)
     {
         fout_ptr = fopen(table->name, "wb");
     }
@@ -81,7 +85,8 @@ void cmd_save_table(Table *table)
             do
             {
                 printf("file already exists, overwrite? (y/n): ");
-                scanf("%s", accept);
+                fgets(input, FILE_NAME_MAX_LEN, stdin);
+                sscanf(input, "%s", accept);
                 if (strcmp(accept, "n") == 0)
                 {
                     fclose(fout_ptr);
@@ -148,13 +153,16 @@ void cmd_remove_node(Table* table){
         return;
     }
 
+    char input[FILE_NAME_MAX_LEN];
+
     int line = 0;
     do
     {
-        printf("Line number to remove (1 - %ld): ", table->data_list.len);
-    } while (scanf("%d", &line) == 0);
+        printf("Line number to remove (0 - %ld): ", table->data_list.len - 1);
+        fgets(input, FILE_NAME_MAX_LEN, stdin);
+    } while (sscanf(input, "%d", &line) == 0);
 
-    list_remove(&table->data_list, line - 1);
+    list_remove(&table->data_list, line);
 }
 
 void print_help()

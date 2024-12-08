@@ -20,6 +20,8 @@ enum CmdID
     SORT_LIST,
     ADD_NODE,
     REMOVE_NODE,
+
+    EMPTY
 };
 
 /**

@@ -1,6 +1,7 @@
 #include "list.h"
 
 #include <memory.h>
+#include <stdint.h>
 
 /**
  * @brief Node structure
@@ -119,6 +120,16 @@ void list_push(List *list, const void *data, size_t size)
     list->len++;
 };
 
+uint32_t calc_crc(const void* sequence, size_t len){
+    uint32_t xor_crc = 0;
+    uint8_t* bytes = (uint8_t*)sequence; 
+    for (size_t i = 0; i < len; i++)
+    {
+        xor_crc += (uint32_t)*bytes;
+        bytes++;
+    }
+}
+
 void list_save(const List *list, FILE *fout_ptr)
 {
     if (list == NULL || fout_ptr == NULL)
@@ -128,11 +139,18 @@ void list_save(const List *list, FILE *fout_ptr)
 
     _print_memory(fout_ptr, list, sizeof(List));
 
+    uint32_t list_crc = calc_crc(list, sizeof(List));
+    _print_memory(fout_ptr, &list_crc, sizeof(list_crc));
+
     Node *node = list->head;
 
     while (node != 0)
     {
         _print_memory(fout_ptr, node, sizeof(Node));
+        
+        uint32_t node_crc = calc_crc(node, sizeof(Node));
+        _print_memory(fout_ptr, &node_crc, sizeof(node_crc));
+
         _print_memory(fout_ptr, node->data, node->data_size);
         node = node->next;
     }

@@ -129,29 +129,39 @@ void cmd_print(Table *table)
     print_data(&table->data_list, table->data_type);
 }
 
-void cmd_filter_table(Table *table)
+void cmd_filter_table(const Table *table)
 {
     if (table==NULL)
     {
         return;
     }
 
-    if (filter_data(&table->data_list, table->data_type) == 0)
+    Table filtered = {};
+    filtered.data_type = table->data_type;
+    strcpy(filtered.name, table->name);
+    list_copy(&table->data_list, &filtered.data_list);
+
+    if (filter_data(&filtered.data_list, filtered.data_type) == 0)
     {
-        print_data(&table->data_list, table->data_type);
+        print_data(&filtered.data_list, filtered.data_type);
     }
 }
 
-void cmd_sort_table(Table *table)
+void cmd_sort_table(const Table *table)
 {
     if (table==NULL)
     {
         return;
     }
 
-    if (sort_data(&table->data_list, table->data_type) == 0)
+    Table sorted = {};
+    sorted.data_type = table->data_type;
+    strcpy(sorted.name, table->name);
+    list_copy(&table->data_list, &sorted.data_list);
+
+    if (sort_data(&sorted.data_list, sorted.data_type) == 0)
     {
-        print_data(&table->data_list, table->data_type);
+        print_data(&sorted.data_list, sorted.data_type);
     }
 }
 

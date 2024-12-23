@@ -1,3 +1,9 @@
+/**
+ * @brief List implementation
+ * @defgroup list List
+ * @{
+ */
+
 #pragma once
 
 #include <stdlib.h>
@@ -6,6 +12,9 @@
 
 /**
  * @brief List structure
+ *
+ * Consists of a sequence of nodes, which wraps data
+ * @see @ref Node
  *
  * @struct List
  * @var List::head
@@ -60,7 +69,7 @@ void list_remove(List *list, int index);
  * @brief Remove all elements from the list
  *
  * Free all allocated memory, reset list structure
- * 
+ *
  * @param list
  * List structure
  */
@@ -172,3 +181,5 @@ typedef bool (*swap_cb)(void *element_left, void *element_right);
  * Callback function, returns true if elements should be swapped
  */
 void list_sort(const List *src, List *dst, swap_cb callback);
+
+///  @}

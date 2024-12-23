@@ -1,3 +1,10 @@
+/**
+* @file data.h
+* @defgroup data 
+* @{
+* @brief Table API
+*/
+
 #pragma once
 
 #include "list/list.h"
@@ -52,3 +59,5 @@ int sort_data(List* list, DataType type);
  * @param type - data type in list
  */
 void push_data(List* list, DataType type);
+
+///  @}

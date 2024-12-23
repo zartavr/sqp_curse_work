@@ -50,7 +50,17 @@ void cmd_load_table(Table *table)
         printf("file not found\n");
         return;
     }
-    fscanf(fin_ptr, "data_type: %u\tname: %s\n", &table->data_type, table->name);
+
+    input[0] = '\0';
+    fgets(input, FILE_NAME_MAX_LEN, fin_ptr);
+
+    if (strlen(input) == 0)
+    {
+        printf("file is empty\n");
+        return;
+    }
+
+    sscanf(input, "data_type: %u\tname: %s\n", &table->data_type, table->name);
     list_load(&table->data_list, fin_ptr);
     fclose(fin_ptr);
 

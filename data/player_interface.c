@@ -36,7 +36,7 @@ PlayerField player_filter_prompt()
         printf("%d - Filter by country\n", PLAYER_COUNTRY);
         printf(">> ");
         fgets(input, MAX_INPUT_LEN, stdin);
-    } while (sscanf(input,"%d", &variant) == 0 && variant < PLAYER_ID && variant > PLAYER_FIELD_NUM);
+    } while (sscanf(input, "%d", &variant) == 0 && variant < PLAYER_ID && variant > PLAYER_FIELD_NUM);
 
     return variant;
 }
@@ -64,7 +64,7 @@ PlayerField player_sort_prompt()
         printf("%d - Sort by score\n", PLAYER_SCORE);
         printf(">> ");
         fgets(input, MAX_INPUT_LEN, stdin);
-    } while (sscanf(input,"%d", &variant) == 0 && variant < PLAYER_ID && variant > PLAYER_FIELD_NUM);
+    } while (sscanf(input, "%d", &variant) == 0 && variant < PLAYER_ID && variant > PLAYER_FIELD_NUM);
 
     return variant;
 }
@@ -83,6 +83,15 @@ bool player_name_sort(void *a, void *b)
     return strcmp(user_a->name, user_b->name) > 0;
 }
 
+void _player_flush_input()
+{
+    char input_byte = 'a';
+    while (input_byte != '\n')
+    {
+        input_byte = fgetc(stdin);
+    }
+}
+
 void player_insert_prompt(Player *player)
 {
     char input[MAX_INPUT_LEN];
@@ -94,11 +103,21 @@ void player_insert_prompt(Player *player)
         sscanf(input, "%d", &player->id);
     }
 
+    if (!strchr(input, '\n'))
+    {
+        _player_flush_input();
+    }
+
     printf("Enter name ('%s'): ", player->name);
     fgets(input, MAX_INPUT_LEN, stdin);
     if (input[0] != '\n')
     {
         sscanf(input, "%[0-9a-zA-Z ]", player->name);
+    }
+
+    if (!strchr(input, '\n'))
+    {
+        _player_flush_input();
     }
 
     printf("Enter score ('%d'): ", player->score);
@@ -108,6 +127,11 @@ void player_insert_prompt(Player *player)
         sscanf(input, "%d", &player->score);
     }
 
+    if (!strchr(input, '\n'))
+    {
+        _player_flush_input();
+    }
+
     printf("Enter league ('%d'): ", player->league);
     fgets(input, MAX_INPUT_LEN, stdin);
     if (input[0] != '\n')
@@ -115,10 +139,20 @@ void player_insert_prompt(Player *player)
         sscanf(input, "%d", &player->league);
     }
 
+    if (!strchr(input, '\n'))
+    {
+        _player_flush_input();
+    }
+
     printf("Enter country ('%s'): ", player->country);
     fgets(input, MAX_INPUT_LEN, stdin);
     if (input[0] != '\n')
     {
         sscanf(input, "%[0-9a-zA-Z ]", player->country);
+    }
+
+    if (!strchr(input, '\n'))
+    {
+        _player_flush_input();
     }
 }

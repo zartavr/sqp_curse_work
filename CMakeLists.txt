@@ -1,10 +1,9 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.22.1)
 
 project(listdos)
 
 set(CMAKE_C_STANDARD=11)
 set(CMAKE_BUILD_TYPE "Debug")
-
 
 add_library(list STATIC list/list.c)
 add_subdirectory(data)

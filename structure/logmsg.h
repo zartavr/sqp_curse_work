@@ -1,4 +1,5 @@
 /**
+ * @file logmsg.h
  * @defgroup logmsg Logger Message
  * @ingroup data
  * @brief LogMsg data structure

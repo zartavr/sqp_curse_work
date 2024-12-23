@@ -1,4 +1,5 @@
 /**
+ * @file player.h
  * @defgroup player Player 
  * @ingroup data
  * @brief Player data structure

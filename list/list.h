@@ -103,8 +103,11 @@ void list_save(const List *list, FILE *fout_ptr);
  * List structure
  * @param fin_ptr
  * File pointer
+ * @return int - status: 0  - success,
+ *                       -1 - file corrupted
+ *                       -2 - invalid arguments
  */
-void list_load(List *list, FILE *fin_ptr);
+int list_load(List *list, FILE *fin_ptr);
 
 /**
  * @brief Pointer to callback function

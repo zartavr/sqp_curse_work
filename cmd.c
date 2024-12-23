@@ -47,7 +47,7 @@ void cmd_load_table(Table *table)
 
     if (fin_ptr == NULL)
     {
-        printf("file not found\n");
+        printf("ERROR: file not found\n");
         return;
     }
 
@@ -56,13 +56,20 @@ void cmd_load_table(Table *table)
 
     if (strlen(input) == 0)
     {
-        printf("file is empty\n");
+        printf("ERROR: file is empty\n");
         return;
     }
 
     sscanf(input, "data_type: %u\tname: %s\n", &table->data_type, table->name);
-    list_load(&table->data_list, fin_ptr);
+    int ret = list_load(&table->data_list, fin_ptr);
     fclose(fin_ptr);
+
+    if (ret != 0){
+        printf("ERROR: the data file is corrupted\n");
+    }
+    else{
+        printf("The load was successful\n");
+    }
 
     memmove(&table->name, file_name_input, FILE_NAME_MAX_LEN);
 }

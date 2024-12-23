@@ -156,22 +156,37 @@ void list_save(const List *list, FILE *fout_ptr)
     }
 }
 
-void list_load(List *list, FILE *fin_ptr)
+int list_load(List *list, FILE *fin_ptr)
 {
     if (list == NULL || fin_ptr == NULL)
     {
-        return;
+        return -2;
     }
 
     char *byte_pointer;
 
     List buf = {};
+    uint32_t header_crc = 0;
 
     byte_pointer = (char *)&buf;
     for (size_t i = 0; i < sizeof(List); i++)
     {
         *byte_pointer = getc(fin_ptr);
         byte_pointer++;
+    }
+
+    byte_pointer = (char *)&header_crc;
+    for (size_t i = 0; i < sizeof(header_crc); i++)
+    {
+        *byte_pointer = getc(fin_ptr);
+        byte_pointer++;
+    }
+
+    uint32_t list_crc = calc_crc(&buf, sizeof(List));
+
+    if (list_crc != header_crc)
+    {
+        goto file_corrupted;
     }
 
     list_clear(list);
@@ -187,6 +202,20 @@ void list_load(List *list, FILE *fin_ptr)
             byte_pointer++;
         }
 
+        byte_pointer = (char *)&header_crc;
+        for (size_t i = 0; i < sizeof(header_crc); i++)
+        {
+            *byte_pointer = getc(fin_ptr);
+            byte_pointer++;
+        }
+
+        uint32_t node_crc = calc_crc(&node, sizeof(Node));
+
+        if (node_crc != header_crc)
+        {
+            goto file_corrupted;
+        }
+
         void *data = malloc(node.data_size);
         byte_pointer = data;
         for (size_t i = 0; i < node.data_size; i++)
@@ -199,6 +228,11 @@ void list_load(List *list, FILE *fin_ptr)
 
         free(data);
     }
+
+    return 0;
+
+file_corrupted:
+    return -1;
 }
 
 void list_foreach(List *list, foreach_cb callback)

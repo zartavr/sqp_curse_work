@@ -83,6 +83,15 @@ bool logmsg_line_sort(void *a, void *b)
     return log_msg_a->line > log_msg_b->line;
 }
 
+void _logmsg_flush_input()
+{
+    char input_byte = 'a';
+    while (input_byte != '\n')
+    {
+        input_byte = fgetc(stdin);
+    }
+}
+
 void logmsg_insert_prompt(LogMsg *log_msg)
 {    
     char input[MAX_INPUT_LEN];
@@ -94,11 +103,21 @@ void logmsg_insert_prompt(LogMsg *log_msg)
         sscanf(input, "%u", (unsigned int*)&log_msg->severity);
     }
 
+    if (!strchr(input, '\n'))
+    {
+        _logmsg_flush_input();
+    }
+
     printf("Enter message ('%s'): ", log_msg->message);
     fgets(input, MAX_INPUT_LEN, stdin);
     if (input[0] != '\n')
     {
         sscanf(input, "%[0-9a-zA-Z ]", log_msg->message);
+    }
+
+    if (!strchr(input, '\n'))
+    {
+        _logmsg_flush_input();
     }
 
     printf("Enter path ('%s'): ", log_msg->path);
@@ -108,10 +127,20 @@ void logmsg_insert_prompt(LogMsg *log_msg)
         sscanf(input, "%[0-9a-zA-Z ]", log_msg->path);
     }
 
+    if (!strchr(input, '\n'))
+    {
+        _logmsg_flush_input();
+    }
+
     printf("Enter line ('%d'): ", log_msg->line);
     fgets(input, MAX_INPUT_LEN, stdin);
     if (input[0] != '\n')
     {
         sscanf(input, "%d", &log_msg->line);
+    }
+
+    if (!strchr(input, '\n'))
+    {
+        _logmsg_flush_input();
     }
 }

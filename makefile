@@ -3,7 +3,7 @@ all: build run
 .workdir := workdir
 .builddir := build
 
-.PHONY: run build clear
+.PHONY: run build clear doc
 
 run: .workdir
 	cd $(.workdir) ; ../$(.builddir)/listdos
@@ -22,3 +22,6 @@ clear:
 
 .workdir:
 	mkdir -p $(.workdir)
+
+doc:
+	doxygen Doxyfile

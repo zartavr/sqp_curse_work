@@ -164,16 +164,20 @@ void push_data(List *list, DataType type)
     switch (type)
     {
     case LOGMSG:
+    {
         LogMsg log_msg_template = {};
         logmsg_insert_prompt(&log_msg_template);
         list_push(list, &log_msg_template, sizeof(LogMsg));
         break;
+    }
 
     case PLAYER:
+    {
         Player player_template = {.id = list->len};
         player_insert_prompt(&player_template);
         list_push(list, &player_template, sizeof(Player));
         break;
+    }
 
     default:
         break;

@@ -47,12 +47,29 @@ void cmd_load_table(Table *table)
 
     if (fin_ptr == NULL)
     {
-        printf("file not found\n");
+        printf("ERROR: file not found\n");
         return;
     }
-    fscanf(fin_ptr, "data_type: %u\tname: %s\n", &table->data_type, table->name);
-    list_load(&table->data_list, fin_ptr);
+
+    input[0] = '\0';
+    fgets(input, FILE_NAME_MAX_LEN, fin_ptr);
+
+    if (strlen(input) == 0)
+    {
+        printf("ERROR: file is empty\n");
+        return;
+    }
+
+    sscanf(input, "data_type: %u\tname: %s\n", &table->data_type, table->name);
+    int ret = list_load(&table->data_list, fin_ptr);
     fclose(fin_ptr);
+
+    if (ret != 0){
+        printf("ERROR: the data file is corrupted\n");
+    }
+    else{
+        printf("The load was successful\n");
+    }
 
     memmove(&table->name, file_name_input, FILE_NAME_MAX_LEN);
 }
@@ -112,29 +129,39 @@ void cmd_print(Table *table)
     print_data(&table->data_list, table->data_type);
 }
 
-void cmd_filter_table(Table *table)
+void cmd_filter_table(const Table *table)
 {
     if (table==NULL)
     {
         return;
     }
 
-    if (filter_data(&table->data_list, table->data_type) == 0)
+    Table filtered = {};
+    filtered.data_type = table->data_type;
+    strcpy(filtered.name, table->name);
+    list_copy(&table->data_list, &filtered.data_list);
+
+    if (filter_data(&filtered.data_list, filtered.data_type) == 0)
     {
-        print_data(&table->data_list, table->data_type);
+        print_data(&filtered.data_list, filtered.data_type);
     }
 }
 
-void cmd_sort_table(Table *table)
+void cmd_sort_table(const Table *table)
 {
     if (table==NULL)
     {
         return;
     }
 
-    if (sort_data(&table->data_list, table->data_type) == 0)
+    Table sorted = {};
+    sorted.data_type = table->data_type;
+    strcpy(sorted.name, table->name);
+    list_copy(&table->data_list, &sorted.data_list);
+
+    if (sort_data(&sorted.data_list, sorted.data_type) == 0)
     {
-        print_data(&table->data_list, table->data_type);
+        print_data(&sorted.data_list, sorted.data_type);
     }
 }
 

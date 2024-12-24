@@ -1,3 +1,11 @@
+/**
+ * @file player.h
+ * @defgroup player Player 
+ * @ingroup data
+ * @brief Player data structure
+ * @{
+ */
+
 #pragma once
 
 #define PLAYER_NAME_MAX_LEN 16
@@ -15,3 +23,5 @@ typedef struct Player
     int league;                           ///< Player league id
     char country[PLAYER_COUNTRY_MAX_LEN]; ///< Player country
 } Player;
+
+/// @}

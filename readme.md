@@ -16,6 +16,19 @@ make build
 make run
 ```
 
+Собрать документацию, результат в `build/doc`
+
+```
+make doc
+```
+
+## Версии инструментов
+
+- gcc       v11.4.0
+- Cmake     v3.22.1
+- GNU Make  v4.3
+- Doxygen   v1.9.1
+
 ## Структура проекта
 
 Система сборки - CMake
@@ -23,9 +36,10 @@ make run
 ```markdown
 .
 ├── CMakeLists.txt 
-├── cmd.c
-├── cmd.h
-├── main.c
+├── src                    - CLI приложение для работы с талицами
+│   ├── cmd.c
+│   ├── cmd.h
+│   ├── main.c
 ├── makefile                - верхнеуровневый makefile с командами для сборки и запуска
 ├── readme.md
 ├── data                    - компонент для GUI структур данных

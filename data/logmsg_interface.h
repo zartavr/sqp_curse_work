@@ -1,3 +1,10 @@
+/** 
+ * @ingroup logmsg
+ * @{ 
+ * @file logmsg_interface.h
+ * @brief LogMsg Table interface
+*/
+
 #pragma once
 
 #include "structure/logmsg.h"

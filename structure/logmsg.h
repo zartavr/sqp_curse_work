@@ -1,3 +1,11 @@
+/**
+ * @file logmsg.h
+ * @defgroup logmsg Logger Message
+ * @ingroup data
+ * @brief LogMsg data structure
+ * @{
+ */
+
 #pragma once
 
 #define LOGMSG_PATH_MAX_LEN 30
@@ -26,3 +34,5 @@ typedef struct LogMsg
     char path[LOGMSG_MSG_MAX_LEN];     ///< Message source file path
     int line;                          ///< Message source file line number
 } LogMsg;
+
+/// @}

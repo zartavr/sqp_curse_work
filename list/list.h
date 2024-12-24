@@ -1,3 +1,10 @@
+/**
+ * @file list.h
+ * @brief List implementation
+ * @defgroup list List
+ * @{
+ */
+
 #pragma once
 
 #include <stdlib.h>
@@ -6,6 +13,9 @@
 
 /**
  * @brief List structure
+ *
+ * Consists of a sequence of nodes, which wraps data
+ * @see @ref Node
  *
  * @struct List
  * @var List::head
@@ -60,7 +70,7 @@ void list_remove(List *list, int index);
  * @brief Remove all elements from the list
  *
  * Free all allocated memory, reset list structure
- * 
+ *
  * @param list
  * List structure
  */
@@ -103,8 +113,11 @@ void list_save(const List *list, FILE *fout_ptr);
  * List structure
  * @param fin_ptr
  * File pointer
+ * @return int - status: 0  - success,
+ *                       -1 - file corrupted
+ *                       -2 - invalid arguments
  */
-void list_load(List *list, FILE *fin_ptr);
+int list_load(List *list, FILE *fin_ptr);
 
 /**
  * @brief Pointer to callback function
@@ -169,3 +182,5 @@ typedef bool (*swap_cb)(void *element_left, void *element_right);
  * Callback function, returns true if elements should be swapped
  */
 void list_sort(const List *src, List *dst, swap_cb callback);
+
+///  @}

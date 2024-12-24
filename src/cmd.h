@@ -1,3 +1,9 @@
+/**
+ * @file cmd.h
+ * @defgroup gui GUI
+ * @{
+ * @brief App Command Line Interface
+ */
 #pragma once
 
 #include "list/list.h"
@@ -55,15 +61,12 @@ void print_help();
  */
 void cmd_exit();
 
-/**
- * App command headers
- * 
- */
 void cmd_list_files();
 void cmd_print(Table* table);
 void cmd_load_table(Table* table);
 void cmd_save_table(Table* table);
-void cmd_filter_table(Table* table);
-void cmd_sort_table(Table* table);
+void cmd_filter_table(const Table* table);
+void cmd_sort_table(const Table* table);
 void cmd_add_node(Table* table);
 void cmd_remove_node(Table* table);
+/// @}
